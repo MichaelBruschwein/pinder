@@ -29,7 +29,7 @@ const theme = createMuiTheme({
       textColor: 'gray',
       height: 50,
       width: 100,
-      borderRadius: 35,
+      // borderRadius: 35,
       opacity: 50
     },
   },

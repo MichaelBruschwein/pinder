@@ -11,10 +11,7 @@ import axios from 'axios';
 import Dialog from './../Dialog.js';
 import PhotoUploader from '../PhotoUploader/PhotoUploader';
 import '../App.css';
-import {
-    withRouter
-} from 'react-router-dom'
-import { orange } from '@material-ui/core/colors';
+import {withRouter} from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
 const styleSheet = {
@@ -190,7 +187,7 @@ class Profile extends Component {
                     </CardContent>
                     <CardActions>
                     <PhotoUploader getUrl={this.getUrl} />
-
+                    
                     <Grid container justify="space-between">
                         <Grid item>
                             <Dialog
