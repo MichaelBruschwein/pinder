@@ -3,16 +3,15 @@ import './Profile.css';
 import EditableLabel from 'react-inline-editing';
 // import { Redirect } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Dialog from './../Dialog.js';
 import PhotoUploader from '../PhotoUploader/PhotoUploader';
 import '../App.css';
-import {
-    withRouter
-} from 'react-router-dom'
-// import { orange } from '@material-ui/core/colors';
+import {withRouter} from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import AlertDialogSlide from './../Dialog.js';
 
@@ -103,17 +102,20 @@ class Profile extends Component {
     }
 
     deleteProfile(user) {
-        axios.delete(`/deleteUser/${user.id}`, {})
+        axios.delete(`/deleteUser`, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
             .then((response) => {
-                this.props.userLogout()
+                // this.props.logout()
+                //meow meow meow this dont work meow
             })
             .catch(function (error) {
+                // this.props.logout()
                 console.log(error);
             });
     }
 
     updateProfile(user) {
-        axios.put(`/updateUser/${user.id}`, {
+        axios.put(`/updateUser`, 
+         {
             username: user.username,
             email: user.email,
             password: user.password,
@@ -125,7 +127,8 @@ class Profile extends Component {
             age: user.age,
             bio: user.bio,
             url: user.url
-        })
+        },{headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }}
+        )
             .then((response) => {
                 console.log('Updated Profile')
             })
@@ -188,9 +191,13 @@ class Profile extends Component {
             <div className="container"
                 style={{ paddingTop: '3%' }}>
                 <Card className={this.props.classes.card}>
+                <CardContent >
                 {/* className={this.props.classes.button} */}
                     {this.profileItems()}
+                    </CardContent>
+                    <CardActions>
                     <PhotoUploader getUrl={this.getUrl} />
+                    
                     <Grid container justify="space-between">
                         <Grid item>
                             <Dialog
@@ -216,7 +223,9 @@ class Profile extends Component {
                             />
                         </Grid>
                     </Grid>
+                    </CardActions>
                 </Card >
+                
             </div >
         )
 

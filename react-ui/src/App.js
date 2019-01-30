@@ -24,6 +24,14 @@ const theme = createMuiTheme({
       dark: '#ff9d00',
       contrastText: '#000',
     },
+    button: {
+      backgroundColor: 'orange',
+      textColor: 'gray',
+      height: 50,
+      width: 100,
+      // borderRadius: 35,
+      opacity: 50
+    },
   },
 });
 
@@ -67,7 +75,7 @@ class App extends Component {
             <Route path="/login" render={props => <Login {...props} login={this.login} />} />
             <Route path="/register" component={Register} />
             <Route path="/finder" component={Finder} />
-            <Route path="/profile" component={Profile} />
+            <Route path="/profile" render={props => <Profile {...props} logout={this.logout} />} />
             <Route path="/matches" component={Matches} />
           </MuiThemeProvider>
         </div>
