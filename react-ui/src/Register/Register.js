@@ -6,9 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import axios from 'axios';
-import PhotoUploader from './PhotoUploader';
+import PhotoUploader from '../PhotoUploader/PhotoUploader';
 import { Redirect } from 'react-router-dom';
-import './Register.css';
+import '../App.css';
 
 const styles = theme => ({
   container: {
@@ -17,7 +17,7 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 3,
     marginRight: theme.spacing.unit * 3,
     [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-      width: 400,
+      width: 700,
       marginLeft: 'auto',
       marginRight: 'auto',
     }
@@ -261,7 +261,7 @@ class TextFields extends React.Component {
           </Button>
             </Card>
           </form>
-          <img className="profileImage" src={this.state.url} alt="profile image" />
+          <img className="profileImage" src={this.state.url} alt="profile" />
            <PhotoUploader getUrl={this.getUrl}/>
         </div>
       );

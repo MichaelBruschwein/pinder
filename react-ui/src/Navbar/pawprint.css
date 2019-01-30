@@ -1,0 +1,7 @@
+.paw{
+    border: dotted 3px #ffae00;
+    border-radius: 2em;
+    background-image: url('./pawprint.svg');
+    height: 100px;
+    width: 100px;
+}

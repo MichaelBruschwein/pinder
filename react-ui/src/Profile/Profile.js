@@ -1,30 +1,75 @@
 import React, { Component } from 'react';
 import './Profile.css';
 import EditableLabel from 'react-inline-editing';
-import { Redirect } from 'react-router-dom';
+// import { Redirect } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import Dialog from './../Dialog.js';
-import PhotoUploader from '../PhotoUploader';
-import '../Register.css';
+import PhotoUploader from '../PhotoUploader/PhotoUploader';
+import '../App.css';
+import {
+    withRouter
+} from 'react-router-dom'
+import { orange } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
 
-export default class Profile extends Component {
+const styleSheet = {
+    button:{
+        backgroundColor: 'orange',
+        textColor: 'gray',
+        height: 50,
+        width: 100,
+        borderRadius: 35,
+        opacity: 50,
+      },
+    card: {
+        maxWidth: 1590,
+        borderRadius: 35, 
+        backgroundColor: 'dim gray',
+    },
+}
+
+class Profile extends Component {
     constructor(props) {
         super(props);
-        console.log(this.props.userInfo)
+        // console.log(this.props.userInfo)
         this.state = {
-            user: this.props.userInfo,
             open: false,
+            user: {
+                name: '',
+                username: '',
+                email: '',
+                confirm_email: '',
+                password: '',
+                confirm_password: '',
+                species: '',
+                sex: '',
+                city: '',
+                state: '',
+                age: '',
+                bio: '',
+                url: 'http://www.reptilegardens.com/assets/images/gallery/images/agama_copy.jpg'
+            }
         }
-
         this._handleFocus = this._handleFocus.bind(this);
         this._handleFocusOut = this._handleFocusOut.bind(this);
         this.deleteProfile = this.deleteProfile.bind(this);
         this.updateProfile = this.updateProfile.bind(this);
         this.profileItems = this.profileItems.bind(this);
         this.getUrl = this.getUrl.bind(this);
+    }
+    componentDidMount() {
+        axios.get('/user', 
+          {
+            headers: {'Authorization': `Bearer ${localStorage.getItem('pinder_token')}`}
+          }).then((response) => {
+            this.setState({ user: response.data.user })
+        }).catch((err) => {
+             alert(err)
+            this.props.history.push('/login')
+        })
     }
 
     _handleFocus(key, text) {
@@ -38,28 +83,30 @@ export default class Profile extends Component {
                 [key]: text
             }
         }))
-        this.props.updateState(this.state)
+        // this.props.updateState(this.state)
     }
 
     getUrl(url) {
         this.setState({
-          url: url
+            url: url
         });
-        console.log(this.state)
-      }
-    
+    }
+
     deleteProfile(user) {
-        axios.delete(`/deleteUser/${user.id}`, {})
+        axios.delete(`/deleteUser`, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
             .then((response) => {
-                this.props.userLogout()
+                // this.props.logout()
+                //meow meow meow this dont work meow
             })
             .catch(function (error) {
+                // this.props.logout()
                 console.log(error);
             });
     }
 
     updateProfile(user) {
-        axios.put(`/updateUser/${user.id}`, {
+        axios.put(`/updateUser`, 
+         {
             username: user.username,
             email: user.email,
             password: user.password,
@@ -71,7 +118,8 @@ export default class Profile extends Component {
             age: user.age,
             bio: user.bio,
             url: user.url
-        })
+        },{headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }}
+        )
             .then((response) => {
                 console.log('Updated Profile')
             })
@@ -96,7 +144,7 @@ export default class Profile extends Component {
                     }
                     // Emit the following keys
                     if (keyName === 'url') {
-                        return(<div><img src={displayValue} alt="profile pic"/></div>)
+                        return (<div><img className='profileImage' src={displayValue} alt="profile pic" /></div>)
 
                     } else if (keyName === 'id' || keyName === 'created_at' || keyName === 'updated_at') {
                         // key is important for react to keep track of what updated
@@ -112,6 +160,7 @@ export default class Profile extends Component {
                                 </div>
                                 <div className="column">
                                     <EditableLabel
+                                        key={displayValue.toString()}
                                         text={displayValue.toString()}
                                         labelClassName='myLabelClass'
                                         inputClassName='myInputClass'
@@ -128,44 +177,44 @@ export default class Profile extends Component {
         )
     }
     render() {
-        if (!this.props.userStatus) {
-            return <Redirect to='/login' />
-        } else {
-            return (
-                <div className="container"
-                    style={{ paddingTop: '5%' }}>
-                    <Card className="card">
-                        {this.profileItems()}
-                        <PhotoUploader getUrl={this.getUrl}/>
-                        <Grid container justify="space-between">
-                            <Grid item>
-                                <Dialog
-                                    buttonName={'Delete Profile'}
-                                    buttonType={'primary'}
-                                    title={'Delete Profile'}
-                                    dialog={'Are you sure you want to Delete Your Profile? This cannot be Undone!'}
-                                    confirm={'Delete'} deny={'Cancel'}
-                                    action={this.deleteProfile}
-                                    user={this.state.user}
-                                />
-                            </Grid>
-                            <Grid item>
-                                <Dialog
-                                    buttonName={'Update Profile'}
-                                    buttonType={'secondary'}
-                                    title={'Update Profile'}
-                                    dialog={'Are you sure you want to Update Your Profile?'}
-                                    confirm={'Update'}
-                                    deny={'Cancel'}
-                                    action={this.updateProfile}
-                                    user={this.state.user}
-                                />
-                            </Grid>
+        console.log(this.props)
+        return (
+            <div className="container"
+                style={{ paddingTop: '5%' }}>
+                <Card className={this.props.classes.card}>
+                {/* className={this.props.classes.button} */}
+                    {this.profileItems()}
+                    <PhotoUploader getUrl={this.getUrl} />
+                    <Grid container justify="space-between">
+                        <Grid item>
+                            <Dialog
+                                buttonName={'Delete Profile'}
+                                buttonType={'primary'}
+                                title={'Delete Profile'}
+                                dialog={'Are you sure you want to Delete Your Profile? This cannot be Undone!'}
+                                confirm={'Delete'} deny={'Cancel'}
+                                action={this.deleteProfile}
+                                user={this.state.user}
+                            />
                         </Grid>
-                    </Card >
-                </div >
-            )
-        }
+                        <Grid item>
+                            <Dialog
+                                buttonName={'Update Profile'}
+                                buttonType={'secondary'}
+                                title={'Update Profile'}
+                                dialog={'Are you sure you want to Update Your Profile?'}
+                                confirm={'Update'}
+                                deny={'Cancel'}
+                                action={this.updateProfile}
+                                user={this.state.user}
+                            />
+                        </Grid>
+                    </Grid>
+                </Card >
+            </div >
+        )
+
     }
 }
 
+export default withRouter(withStyles(styleSheet)(Profile))

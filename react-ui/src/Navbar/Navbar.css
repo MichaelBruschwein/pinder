@@ -1,12 +1,44 @@
+/* a is for links in the navbar */
 a {
-    color: inherit;
+    color: white;
+    padding-top: 1em;
+    padding-right: 1.5em;
+    padding-bottom: 1em;
+    padding-left:5em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     text-decoration: none;
+    font-size: 25px;
+    letter-spacing: 3px;
+    text-shadow: 3px;
 }
-.paw{
-    height: 50px;
-    width: 50px;
-    margin-left: 50px;
-    margin-right: 50px;
+/* Editing just the word "pinder"*/
+.thewordpinder{
+    height: 40px;
+    width: 40px;
+    margin-left: 100px;
+    margin-right: 150px;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    padding-top: 0;
     background-image: url('./pawprint.svg');
-    
+    color: white;
+    text-shadow: 8px;
+    margin-top: 50px;
+    letter-spacing: 6px;
+    font-size: 40px;
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+:hover {
+    color: black;
+    /* font-size: 50%; */
+}
+/* .container{
+    padding-top: 9px;
+} */
+
+.navbarButton {
+    font-size: 40px;
+}
+

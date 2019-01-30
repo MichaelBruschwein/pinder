@@ -1,13 +1,13 @@
-
 /* inner card padding */
-.card{
+    /* .card{
     padding: 10%;
-}
-
+    border-radius: 2px;
+    border: 2px solid '33ab9f'; 
+        */
 /* this one refers to the full card but not values within */
 .container{
     display: block;
-    width: 60%;
+    width: 50%;
     margin: auto;
 }
 
@@ -15,9 +15,10 @@
 .column {
     float: left;
     width: 50%;
-    font-size: 25px;
+    height: 30%;
+    font-size: 21px;
     text-align: left;
-    font-weight: bold;
+    font-weight: 30em;
 }
 .row{
     padding: 20px;
@@ -38,5 +39,18 @@
     background-color: lightblue;
 }
 
+/* this edits the word pinder that is on top of the paw print */
+.paw {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 2.1em;
+    font-weight: bold;
+    line-height: 3.7em;
+    color: rgb(36, 35, 33);
+    
+}
+.profileImage{
+    width: 30em;
+    height: 30em;
+}
 
-  
+

@@ -1,95 +1,82 @@
 import React, { Component } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Login from './Login'
-import Register from './Register'
-import Finder from './Finder'
+import Login from './Login/Login.js'
+import Register from './Register/Register.js'
+import Finder from './Finder/Finder.js'
 import Navbar from './Navbar/Navbar.js';
-import Matches from './Matches';
-import Home from './Home';
-// import axios from 'axios'
-import Profile from './Profile/Profile';
+import Matches from './Matches/Matches.js';
+import Profile from './Profile/Profile.js';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
-import { green, blue } from '@material-ui/core/colors'
+import { } from '@material-ui/core/colors'
 
 const theme = createMuiTheme({
   palette: {
-    type: 'light',
-    primary: green,
-    secondary: blue,
+    primary: {
+      light: 'ff1a8c',
+      main: '#009688',
+      dark: '339ba5',
+      contrastText: '#000',
+    },
+    secondary: {
+      light: '#005b64',
+      main: '#ff3385',
+      dark: '#ff9d00',
+      contrastText: '#000',
+    },
+    button: {
+      backgroundColor: 'orange',
+      textColor: 'gray',
+      height: 50,
+      width: 100,
+      borderRadius: 35,
+      opacity: 50
+    },
   },
 });
+
 class App extends Component {
   constructor() {
     super()
-    this.rememberMe = localStorage.getItem('remember_me')
-    this.rememberMe = JSON.parse(this.rememberMe)
-    if (this.rememberMe === null) {
+    this.token = localStorage.getItem('pinder_token')
+    if (this.token !== null) {
       this.state = {
-        userLoggedIn: false,
-        user: {}
+        userLoggedIn: true
       }
-    } else { //the user is logged in
+    } else {
       this.state = {
-        userLoggedIn: true,
-        user: this.rememberMe.user
+        userLoggedIn: false
       }
     }
-    this.userLogin = this.userLogin.bind(this)
-    this.userLogout = this.userLogout.bind(this)
-    this.updateState = this.updateState.bind(this)
+    this.logout = this.logout.bind(this)
+    this.login = this.login.bind(this)
   }
 
-  updateState(userData) {
-    // this.setState({
-
-    //   user: userData.user
-
-    // })
-    this.setState(prevState => (
-      {
-        ...prevState,
-        user: { userData }
-      }
-    ))
-
-  }
-
-  userLogin(userData) {
-    var testObject = {
-      token: userData.access_token.token,
-      user: userData.user
-    };
-    localStorage.setItem('remember_me', JSON.stringify(testObject));
-    this.updateState(userData) // broken out into a seperate function so it can be used to set state from other components
+  logout() {
     this.setState({
-      userLoggedIn: true,
-      token: userData.access_token.token
+      userLoggedIn: false
     })
+    localStorage.removeItem('pinder_token')
   }
-
-  userLogout() {
-    localStorage.clear();
+  login() {
     this.setState({
-      token: "",
-      userLoggedIn: false,
-      user: {}
+      userLoggedIn: true
     })
   }
 
   render() {
-    console.log(this.rememberMe)
     return (
       <Router>
         <div className="App">
           <MuiThemeProvider theme={theme}>
-            <Navbar userStatus={this.state.userLoggedIn} logout={this.userLogout} />
-            <Route exact path="/" render={(props) => <Home {...props} userStatus={this.state.userLoggedIn} />} />
-            <Route path="/login" render={(props) => <Login {...props} userLogin={this.userLogin} userStatus={this.state.userLoggedIn} />} />
-            <Route path="/register" render={(props) => <Register {...props} userStatus={this.state.userLoggedIn} />} />
-            <Route path="/finder" render={(props) => <Finder {...props} matches={this.state.user} userStatus={this.state.userLoggedIn} />} />
-            <Route path="/profile" render={(props) => <Profile {...props} userLogout={this.userLogout} updateState={this.updateState} userStatus={this.state.userLoggedIn} userInfo={this.state.user} />} />
-            <Route path="/matches" render={(props) => <Matches {...props} userStatus={this.state.userLoggedIn} />} />
+            <Navbar userLoggedIn={this.state.userLoggedIn} logout={this.logout} />
+            {/* use profile to manage login */}
+            <Route exact path="/" component={Profile} />
+            <Route path="/login" render={props => <Login {...props} login={this.login} />} />
+            <Route path="/register" component={Register} />
+            <Route path="/finder" component={Finder} />
+            <Route path="/profile" render={props => <Profile {...props} logout={this.logout} />} />
+            <Route path="/matches" component={Matches} />
           </MuiThemeProvider>
         </div>
       </Router>

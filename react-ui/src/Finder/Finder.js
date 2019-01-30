@@ -8,23 +8,41 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
-import { Redirect } from 'react-router-dom'
-import axios from 'axios'
-
+import axios from 'axios';
+import '../App.css';
+import './Finder.css';
+import {
+    withRouter
+} from 'react-router-dom'
 
 const styles = {
     card: {
-        maxWidth: 850,
+        maxWidth: 1590,
+        borderRadius: 35, 
+        backgroundColor: 'dim gray',
     },
+    // formatting the pic below... on finder page, kind of?
     media: {
-        paddingTop: '56.25%',
+        paddingTop: '75.25%',
+        paddingBottom: '-76%',
+        borderRadius: 35,
     },
+    text: {
+        fontSize: 44
+    },
+    button:{
+        backgroundColor: 'orange',
+        textColor: 'gray',
+        height: 50,
+        width: 100,
+        borderRadius: 35,
+        opacity: 50 
+      },
 };
-class MediaCard extends React.Component {
+class Finder extends React.Component {
     constructor(props) {
         super(props)
         this.classes = props;
-        console.log(this.props.matches.id)
         this.state = {
             userToBeDisplayed: {
                 name: "loading please wait...",
@@ -33,66 +51,66 @@ class MediaCard extends React.Component {
                 city: "",
                 state: "",
                 bio: "",
-                url:""
+                url: ""
             },
             isUserOne: false,
-            userId: this.props.matches.id,
-            sadPuppy:false
+            userId: null,
+            sadPuppy: false
         }
         this.likesUser = this.likesUser.bind(this)
         this.getNewMatch = this.getNewMatch.bind(this)
     }
     componentDidMount() {
-        //grabs the data of all the matched users
-        //change to only grab one match
         this.getNewMatch()
     }
     likesUser(like) {
         axios.put('/like', {
-            user1: this.state.userId,
             user2: this.state.userToBeDisplayed.id,
             like: like,
             isUser2: this.state.isUserOne
-        }).then((response) => {
-            console.log(response)
+        }, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
+        .then((response) => {
             this.getNewMatch()
-            // if (response.data.message==="matched"){
-            //     alert("HEY Hey hey")
-            // }
+            if (response.data.message === "matched") {
+                alert("HEY Hey hey")
+            }
         }).catch((error) => {
             console.log(error)
         })
 
     }
-    getNewMatch(){
-        axios.post('/match', {
-            id: this.state.userId
-        }).then((response) => {
-            console.log(response.data)
-            if (response.data.message==="empty"){
-                this.setState({
-                    sadPuppy:true
-                })
-                // alert("Thats ruff, there are no more matches")
-                //reroute here
-            }else{
-                this.setState({
-                    userToBeDisplayed: response.data.userToBeDisplayed,
-                    isUserOne: response.data.isUserOne
-                })
-            }
-            
-        })
+    getNewMatch() {
+        axios.get('/match',
+            {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }
+            }).then((response) => {
+                if (response.data.message === "empty") {
+                    this.setState({
+                        sadPuppy: true
+                    })
+                    // alert("Thats ruff, there are no more matches")
+                    //reroute here
+                } else {
+                    this.setState({
+                        userToBeDisplayed: response.data.userToBeDisplayed,
+                        isUserOne: response.data.isUserOne,
+                        userId:response.data.userCurrentlyLoggedIn.id
+
+                    })
+                }
+
+            }).catch((err) => {
+                alert(err)
+               this.props.history.push('/login')
+           })
     }
 
     render() {
-        if (!this.props.userStatus) {
-            return <Redirect to='/login' />
-        }else if(this.state.sadPuppy){
-           return(<div>
-               <h1> That's Ruff No New Matches Please Check Back Later</h1>
-               <img src="https://i.ytimg.com/vi/R7K-crxH2J0/hqdefault.jpg"></img>
-               </div>)
+        if (this.state.sadPuppy) {
+            return (<div>
+                <h1> That's Ruff No New Matches Please Check Back Later</h1>
+                <img src="https://i.ytimg.com/vi/R7K-crxH2J0/hqdefault.jpg" alt="cute dog"></img>
+            </div>)
         } else {
             return (
                 <div
@@ -111,7 +129,7 @@ class MediaCard extends React.Component {
                                     image={this.state.userToBeDisplayed.url}
                                     title="Contemplative Reptile"
                                 />
-                                <CardContent>
+                                <CardContent className= {this.props.classes.card}>
 
                                     {this.state.userToBeDisplayed.name},
                                     {this.state.userToBeDisplayed.sex},
@@ -126,11 +144,11 @@ class MediaCard extends React.Component {
                                     container
                                     alignItems="flex-end"
                                 >
-                                    <Button onClick={(e)=>this.likesUser(false)} size="large" variant="contained" color="secondary">
+                                    <Button className={this.props.classes.button} onClick={(e) => this.likesUser(false)} size="large" variant="contained" color="secondary">
                                         Dislike
                                     </Button>
                                 </Grid>
-                                <Button onClick={(e)=>this.likesUser(true)} size="large" variant="contained" color="primary">
+                                <Button className={this.props.classes.button} onClick={(e) => this.likesUser(true)} size="large" variant="contained" color="primary">
                                     Like
                                 </Button>
                             </CardActions>
@@ -142,11 +160,12 @@ class MediaCard extends React.Component {
     }
 }
 
-MediaCard.propTypes = {
+Finder.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MediaCard);
+//export default withStyles(styles)(MediaCard);
+export default withRouter(withStyles(styles)(Finder));
 //Make a axios post call to database to create and search for matches
 //We get a response from database and setstate of matches to equal the ids from database
 //
