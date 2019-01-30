@@ -3,6 +3,8 @@ import './Profile.css';
 import EditableLabel from 'react-inline-editing';
 // import { Redirect } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import CardActions from '@material-ui/core/CardActions';
 import Divider from '@material-ui/core/Divider';
 import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
@@ -182,9 +184,13 @@ class Profile extends Component {
             <div className="container"
                 style={{ paddingTop: '5%' }}>
                 <Card className={this.props.classes.card}>
+                <CardContent >
                 {/* className={this.props.classes.button} */}
                     {this.profileItems()}
+                    </CardContent>
+                    <CardActions>
                     <PhotoUploader getUrl={this.getUrl} />
+
                     <Grid container justify="space-between">
                         <Grid item>
                             <Dialog
@@ -210,7 +216,9 @@ class Profile extends Component {
                             />
                         </Grid>
                     </Grid>
+                    </CardActions>
                 </Card >
+                
             </div >
         )
 
