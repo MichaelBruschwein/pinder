@@ -14,11 +14,11 @@
 /* this one refers to both key and value pairs */
 .column {
     float: left;
-    width: 50%;
+    width: 40%;
     height: 30%;
     font-size: 21px;
     text-align: left;
-    font-weight: 30em;
+    font-weight: 22px;
 }
 .row{
     padding: 20px;

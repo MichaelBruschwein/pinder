@@ -15,7 +15,7 @@ const styles = {
     height: 50,
     width: 100,
     borderRadius: 35,
-    opacity: 50 
+    opacity: 50
   },
 }
 class PhotoUploader extends Component {
@@ -57,11 +57,12 @@ class PhotoUploader extends Component {
       <div>
 
         {/* <input type="file" onChange={this.fileChangedHandler} /> */}
-        
+        {/* (<button onClick={this.handleClick}/>) */}
         <input type= "file" className={this.props.classes.button} onChange={this.fileChangedHandler} ></input>
         <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
         
 
+         
 
 {/* <input type=”text” name=”title” value={this.state.title} 
     onChange={this.handleChange.bind(this)}/> */}

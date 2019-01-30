@@ -24,15 +24,21 @@ const styleSheet = {
         width: 100,
         borderRadius: 35,
         opacity: 50,
-        fontStyle: 'Arial'
+        fontStyle: 'Arial',
       },
     card: {
         maxWidth: 1590,
         borderRadius: 45, 
         backgroundColor: 'dim gray',
-        borderStyle: 'dotted', 
-        borderColor: 'gray'   
+        borderStyle: 'solid', 
+        borderColor: 'gray',
+        boxShadow: 90,
     },
+    container: {
+        display: 'block',
+        width: 50,
+        margin: 'auto'
+    }
 };
 
 class Profile extends Component {
