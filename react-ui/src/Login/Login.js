@@ -4,15 +4,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
-// import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import LockIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import { Link } from "react-router-dom";
 import axios from "axios"
 import '../App.css';
 import './Login.css';
@@ -63,6 +60,12 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.directToRegister = this.directToRegister.bind(this)
   }
+  componentDidMount(){
+    let token = localStorage.getItem('pinder_token')
+    if(token){
+      this.props.history.push('profile')
+    }
+  }
   directToRegister(){
     this.props.history.push('/register')
   }
@@ -83,9 +86,6 @@ class Login extends React.Component {
       .catch((error) => {
         console.log(error)
       })
-  }
-  directToRegister() {
-    this.props.history.push('/register')
   }
   render() {
     return (
@@ -137,7 +137,6 @@ class Login extends React.Component {
       );
     }
   }
-}
 // }
 
 Login.propTypes = {

@@ -55,7 +55,7 @@ class PhotoUploader extends Component {
     return (
       <div>
 
-        <input type="file" onChange={this.fileChangedHandler} />
+       <input type="file" onChange={this.fileChangedHandler}/>
 
         <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
         

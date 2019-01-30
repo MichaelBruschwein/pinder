@@ -108,6 +108,17 @@ class MatchController {
         }
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>      
     }
+    async matches({ request, response, auth }) {
+        try {
+            let user1 = await auth.getUser()
+            console.log(user1)
+            response.send({url:user1.url,username:user1.username})
+        }
+        catch (e) {
+            response.send(e)
+        }
+
+    }
 }
 module.exports = MatchController
 

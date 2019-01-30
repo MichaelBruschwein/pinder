@@ -31,6 +31,8 @@ Route.put('/updateUser', "UserController.updateUser").middleware('auth')
 Route.delete('/deleteUser', "UserController.deleteUser").middleware('auth')
 
 Route.get('/match', 'MatchController.match').middleware('auth')
+
+Route.get('/matches', 'MatchController.matches').middleware('auth')
 // Route.post('/handleLogin', 'RegisterController.login' )
 
 Route.get('/user', "UserController.getUser").middleware('auth')
