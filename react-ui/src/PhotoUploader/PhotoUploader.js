@@ -3,27 +3,28 @@ import React, { Component } from "react";
 import axios from "axios";
 import '../App.css';
 import { withStyles } from '@material-ui/core/styles';
-
+import './PhotoUploader.css';
 ///prevent refresh of page
 //make spot in database for url
 //require url to be completed
 const styles = {
-  button:{
+  button: {
     backgroundColor: 'orange',
     textColor: 'gray',
     height: 50,
     width: 100,
     borderRadius: 35,
-    opacity: 50 
+    opacity: 50
   },
 }
+
 class PhotoUploader extends Component {
   //setting the state as null 
   state = { selectedFile: null };
-  constructor(props){
+  constructor(props) {
     super(props)
 
-    this.uploadHandler=this.uploadHandler.bind(this)
+    this.uploadHandler = this.uploadHandler.bind(this)
   }
   //re-setting the state with the selected file to be whatever the target file at index 0 is (Whatever file we choose  to upload)
   fileChangedHandler = event => {
@@ -40,12 +41,12 @@ class PhotoUploader extends Component {
       this.state.selectedFile,
       this.state.selectedFile.name
     );
-      //axios call to the backend that posts it to S3 pinder bucket, then pings back as a url response
+    //axios call to the backend that posts it to S3 pinder bucket, then pings back as a url response
     axios.post("/imageUpload", formData, {
       onUploadProgress: progressEvent => {
         console.log(progressEvent.loaded / progressEvent.total);
       }
-    }).then((response)=>{
+    }).then((response) => {
       this.props.getUrl(response.data.url)
     })
   };
@@ -53,17 +54,24 @@ class PhotoUploader extends Component {
   render() {
     // console.log(this.props)
     return (
-      <div>
+      <div class="outer-container">
+        <div class="inner">
+          <input type="file" class="file" onChange={this.fileChangedHandler} />
+          <button class="fakefile" className={this.props.classes.button}>Select File</button>
+        </div>
+        <div class="inner">
+          {/* just spacing the buttons */}
+        </div>
+        <div class="inner">
+          <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
+        </div>
 
-       <input type="file" onChange={this.fileChangedHandler}/>
 
-        <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
-        
       </div>
     );
-  
-    }
+
   }
+}
 
 export default withStyles(styles)(PhotoUploader);
 
