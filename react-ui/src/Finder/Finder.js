@@ -11,6 +11,9 @@ import Grid from '@material-ui/core/Grid';
 import axios from 'axios';
 import '../App.css';
 import './Finder.css';
+import {
+    withRouter
+} from 'react-router-dom'
 
 const styles = {
     card: {
@@ -36,7 +39,7 @@ const styles = {
         opacity: 50 
       },
 };
-class MediaCard extends React.Component {
+class Finder extends React.Component {
     constructor(props) {
         super(props)
         this.classes = props;
@@ -62,11 +65,11 @@ class MediaCard extends React.Component {
     }
     likesUser(like) {
         axios.put('/like', {
-            user1: this.state.userId,
             user2: this.state.userToBeDisplayed.id,
             like: like,
             isUser2: this.state.isUserOne
-        }).then((response) => {
+        }, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
+        .then((response) => {
             this.getNewMatch()
             if (response.data.message === "matched") {
                 alert("HEY Hey hey")
@@ -96,7 +99,10 @@ class MediaCard extends React.Component {
                     })
                 }
 
-            })
+            }).catch((err) => {
+                alert(err)
+               this.props.history.push('/login')
+           })
     }
 
     render() {
@@ -154,11 +160,12 @@ class MediaCard extends React.Component {
     }
 }
 
-MediaCard.propTypes = {
+Finder.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(MediaCard);
+//export default withStyles(styles)(MediaCard);
+export default withRouter(withStyles(styles)(Finder));
 //Make a axios post call to database to create and search for matches
 //We get a response from database and setstate of matches to equal the ids from database
 //

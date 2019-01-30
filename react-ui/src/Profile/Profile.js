@@ -93,17 +93,20 @@ class Profile extends Component {
     }
 
     deleteProfile(user) {
-        axios.delete(`/deleteUser/${user.id}`, {})
+        axios.delete(`/deleteUser`, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
             .then((response) => {
-                this.props.userLogout()
+                // this.props.logout()
+                //meow meow meow this dont work meow
             })
             .catch(function (error) {
+                // this.props.logout()
                 console.log(error);
             });
     }
 
     updateProfile(user) {
-        axios.put(`/updateUser/${user.id}`, {
+        axios.put(`/updateUser`, 
+         {
             username: user.username,
             email: user.email,
             password: user.password,
@@ -115,7 +118,8 @@ class Profile extends Component {
             age: user.age,
             bio: user.bio,
             url: user.url
-        })
+        },{headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }}
+        )
             .then((response) => {
                 console.log('Updated Profile')
             })

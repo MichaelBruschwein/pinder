@@ -63,6 +63,9 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.directToRegister = this.directToRegister.bind(this)
   }
+  directToRegister(){
+    this.props.history.push('/register')
+  }
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value,
@@ -118,20 +121,21 @@ class Login extends React.Component {
             >
               Sign in
           </Button>
-            <Button
-              // type="submit"
-              onClick={this.directToRegister}
-              fullWidth
-              variant="contained"
-              color="secondary"
-              className={this.props.classes.submit}
-            >
-              Not a Member? Click Here to Register
+                <Button
+                  // type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={this.props.classes.submit}
+                  onClick={this.directToRegister}
+                >
+                  Not a Member? Click Here to Register
           </Button>
-          </form>
-        </Paper>
-      </main>
-    );
+            </form>
+          </Paper>
+        </main>
+      );
+    }
   }
 }
 // }

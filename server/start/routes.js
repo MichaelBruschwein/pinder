@@ -18,26 +18,27 @@ const Route = use('Route')
 
 
 Route.post('/user', 'RegisterController.store')
-Route
-  .get('users/:id', 'RegisterController.show')
-  .middleware('auth')
+
+Route.post('/imageUpload', 'UserController.imageUpload')
+// Route
+//   .get('users/:id', 'RegisterController.show')
+//   .middleware('auth')
 
 Route.post('/loginn', 'UserController.login')
+
+Route.put('/updateUser', "UserController.updateUser").middleware('auth')
+
+Route.delete('/deleteUser', "UserController.deleteUser").middleware('auth')
 
 Route.get('/match', 'MatchController.match').middleware('auth')
 // Route.post('/handleLogin', 'RegisterController.login' )
 
 Route.get('/user', "UserController.getUser").middleware('auth')
 
-Route.get('/user/:id', 'UserController.getUserById')
+//Route.get('/user/:id', 'UserController.getUserById')
 
-Route.delete('/deleteUser/:id', "UserController.deleteUser")
 
-Route.put('/updateUser/:id', "UserController.updateUser")
+Route.put('/like', 'MatchController.like').middleware('auth')
 
-Route.get('/findPets', "FinderController.findPets")
 
-Route.put('/like', 'MatchController.like')
-
-Route.post('/imageUpload', 'UserController.imageUpload')
 

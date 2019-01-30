@@ -39,7 +39,7 @@ class UserController {
             let user = await auth.getUser()
             response.send({ user: user })
         }
-        catch(e){
+        catch (e) {
             response.send("token expired")
         }
     }
@@ -48,38 +48,47 @@ class UserController {
         response.send('create user text')
     }
 
-    async deleteUser({ request, response, params: { id } }) {
-        var deleteUserById = await User.find(id)
-        await deleteUserById.delete()
-        let users = await User.all()
-        response.json({
-            Message: "Who let the dawg's out!",
-            users: users
-        })
+    async deleteUser({ request, response, auth }) {
+        try {
+            let deleteUserById = await auth.getUser()
+           
+            await deleteUserById.delete()
+            response.json({
+                Message: "Who killed my dog"
+            })
+        } catch (e) {
+            response.send('Invalid token' + e)
+        }
     }
 
-    async updateUser({ request, response, params: { id } }) {
-        var userToUpdate = await User.find(id)
-        const { name, username, email, password, species, sex, city, state, age, bio } = request.post()
-        userToUpdate.name = name
-        userToUpdate.username = username
-        userToUpdate.email = email
-        userToUpdate.password = password
-        userToUpdate.species = species
-        userToUpdate.sex = sex
-        userToUpdate.city = city
-        userToUpdate.state = state
-        userToUpdate.age = age
-        userToUpdate.bio = bio
-        userToUpdate.url = url
+    async updateUser({ request, response, auth }) {
+        try {
+            let userToUpdate = await auth.getUser()
+            //const id = user.id
+
+            // var userToUpdate = await User.find(id)
+            const { name, username, email, password, species, sex, city, state, age, bio, url } = request.post()
+            userToUpdate.name = name
+            userToUpdate.username = username
+            userToUpdate.email = email
+            userToUpdate.password = password
+            userToUpdate.species = species
+            userToUpdate.sex = sex
+            userToUpdate.city = city
+            userToUpdate.state = state
+            userToUpdate.age = age
+            userToUpdate.bio = bio
+            userToUpdate.url = url
 
 
-        await userToUpdate.save()
-        let users = await User.all()
-        response.send({
-            users: userToUpdate
-        })
-
+            await userToUpdate.save()
+            let users = await User.all()
+            response.send({
+                users: userToUpdate
+            })
+        } catch (e) {
+            response.send('invalid token' + e)
+        }
     }
     async imageUpload({ request, response }) {
         request.multipart.file('profile_pic', {}, async (file) => {
