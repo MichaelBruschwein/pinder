@@ -12,6 +12,24 @@ import '../App.css';
 import {
     withRouter
 } from 'react-router-dom'
+import { orange } from '@material-ui/core/colors';
+import { withStyles } from '@material-ui/core/styles';
+
+const styleSheet = {
+    button:{
+        backgroundColor: 'orange',
+        textColor: 'gray',
+        height: 50,
+        width: 100,
+        borderRadius: 35,
+        opacity: 50,
+      },
+    card: {
+        maxWidth: 1590,
+        borderRadius: 35, 
+        backgroundColor: 'dim gray',
+    },
+}
 
 class Profile extends Component {
     constructor(props) {
@@ -155,10 +173,12 @@ class Profile extends Component {
         )
     }
     render() {
+        console.log(this.props)
         return (
             <div className="container"
                 style={{ paddingTop: '5%' }}>
-                <Card className="card">
+                <Card className={this.props.classes.card}>
+                {/* className={this.props.classes.button} */}
                     {this.profileItems()}
                     <PhotoUploader getUrl={this.getUrl} />
                     <Grid container justify="space-between">
@@ -193,4 +213,4 @@ class Profile extends Component {
     }
 }
 
-export default withRouter(Profile)
+export default withRouter(withStyles(styleSheet)(Profile))

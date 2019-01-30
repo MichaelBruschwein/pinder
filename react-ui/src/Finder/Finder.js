@@ -15,12 +15,26 @@ import './Finder.css';
 const styles = {
     card: {
         maxWidth: 1590,
+        borderRadius: 35, 
+        backgroundColor: 'dim gray',
     },
     // formatting the pic below... on finder page, kind of?
     media: {
         paddingTop: '75.25%',
         paddingBottom: '-76%',
+        borderRadius: 35,
     },
+    text: {
+        fontSize: 44
+    },
+    button:{
+        backgroundColor: 'orange',
+        textColor: 'gray',
+        height: 50,
+        width: 100,
+        borderRadius: 35,
+        opacity: 50 
+      },
 };
 class MediaCard extends React.Component {
     constructor(props) {
@@ -109,7 +123,7 @@ class MediaCard extends React.Component {
                                     image={this.state.userToBeDisplayed.url}
                                     title="Contemplative Reptile"
                                 />
-                                <CardContent className="card">
+                                <CardContent className= {this.props.classes.card}>
 
                                     {this.state.userToBeDisplayed.name},
                                     {this.state.userToBeDisplayed.sex},
@@ -124,11 +138,11 @@ class MediaCard extends React.Component {
                                     container
                                     alignItems="flex-end"
                                 >
-                                    <Button onClick={(e) => this.likesUser(false)} size="large" variant="contained" color="secondary">
+                                    <Button className={this.props.classes.button} onClick={(e) => this.likesUser(false)} size="large" variant="contained" color="secondary">
                                         Dislike
                                     </Button>
                                 </Grid>
-                                <Button onClick={(e) => this.likesUser(true)} size="large" variant="contained" color="primary">
+                                <Button className={this.props.classes.button} onClick={(e) => this.likesUser(true)} size="large" variant="contained" color="primary">
                                     Like
                                 </Button>
                             </CardActions>

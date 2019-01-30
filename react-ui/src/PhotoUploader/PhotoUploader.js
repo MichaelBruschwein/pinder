@@ -2,11 +2,22 @@
 import React, { Component } from "react";
 import axios from "axios";
 import '../App.css';
+import { withStyles } from '@material-ui/core/styles';
+
 ///prevent refresh of page
 //make spot in database for url
 //require url to be completed
-
-export default class PhotoUploader extends Component {
+const styles = {
+  button:{
+    backgroundColor: 'orange',
+    textColor: 'gray',
+    height: 50,
+    width: 100,
+    borderRadius: 35,
+    opacity: 50 
+  },
+}
+class PhotoUploader extends Component {
   //setting the state as null 
   state = { selectedFile: null };
   constructor(props){
@@ -46,10 +57,13 @@ export default class PhotoUploader extends Component {
 
         <input type="file" onChange={this.fileChangedHandler} />
 
-        <button onClick={this.uploadHandler}>Upload Photo!</button>
+        <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
         
       </div>
     );
+  
+    }
   }
-}
+
+export default withStyles(styles)(PhotoUploader);
 

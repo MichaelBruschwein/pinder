@@ -13,6 +13,10 @@ import '../App.css';
 import './pawprint.css'
 
 const styles = {
+  button:{
+    backgroundColor: 'orange',
+    textColor: 'gray'
+  },
   root: {
     flexGrow: 1,
   },
@@ -40,8 +44,8 @@ class Navbar extends React.Component {
                 <Button variant="contained" color="secondary"><span className="paw">Pinder</span></Button></Link>
               {/* <Typography variant="h6" color="inherit" className={this.props.classes.grow}>
               </Typography> */}
-              <Link to="/register"><Button className="navbarButton" color="inherit" >Register</Button></Link>
-              <Link to="/login" ><Button className = "navbarButton" color="inherit">Login</Button></Link>
+              <Link to="/register"><Button className={this.props.classes.button} color="inherit" >Register</Button></Link>
+              <Link to="/login" ><Button className = {this.props.classes.button} color="inherit">Login</Button></Link>
             </Toolbar>
           </AppBar>
         </div>
