@@ -12,8 +12,9 @@ import '../App.css';
 import {
     withRouter
 } from 'react-router-dom'
-import { orange } from '@material-ui/core/colors';
+// import { orange } from '@material-ui/core/colors';
 import { withStyles } from '@material-ui/core/styles';
+import AlertDialogSlide from './../Dialog.js';
 
 const styleSheet = {
     button:{
@@ -23,13 +24,16 @@ const styleSheet = {
         width: 100,
         borderRadius: 35,
         opacity: 50,
+        fontStyle: 'Arial'
       },
     card: {
         maxWidth: 1590,
-        borderRadius: 35, 
+        borderRadius: 45, 
         backgroundColor: 'dim gray',
+        borderStyle: 'dotted', 
+        borderColor: 'gray'   
     },
-}
+};
 
 class Profile extends Component {
     constructor(props) {
@@ -176,7 +180,7 @@ class Profile extends Component {
         console.log(this.props)
         return (
             <div className="container"
-                style={{ paddingTop: '5%' }}>
+                style={{ paddingTop: '3%' }}>
                 <Card className={this.props.classes.card}>
                 {/* className={this.props.classes.button} */}
                     {this.profileItems()}

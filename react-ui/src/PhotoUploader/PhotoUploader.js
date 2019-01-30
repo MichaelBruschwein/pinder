@@ -4,6 +4,7 @@ import axios from "axios";
 import '../App.css';
 import { withStyles } from '@material-ui/core/styles';
 
+
 ///prevent refresh of page
 //make spot in database for url
 //require url to be completed
@@ -55,10 +56,17 @@ class PhotoUploader extends Component {
     return (
       <div>
 
-        <input type="file" onChange={this.fileChangedHandler} />
-
+        {/* <input type="file" onChange={this.fileChangedHandler} /> */}
+        
+        <input type= "file" className={this.props.classes.button} onChange={this.fileChangedHandler} ></input>
         <button className={this.props.classes.button} onClick={this.uploadHandler}>Upload Photo!</button>
         
+
+
+{/* <input type=”text” name=”title” value={this.state.title} 
+    onChange={this.handleChange.bind(this)}/> */}
+
+
       </div>
     );
   
