@@ -17,7 +17,7 @@ import {
 
 const styles = {
     card: {
-        maxWidth: 1590,
+        maxWidth: 150,
         borderRadius: 35, 
         backgroundColor: 'dim gray',
     },
@@ -129,7 +129,7 @@ class Finder extends React.Component {
                                     image={this.state.userToBeDisplayed.url}
                                     title="Contemplative Reptile"
                                 />
-                                <CardContent className= {this.props.classes.card}>
+                                <CardContent className= {this.props.classes.card }  component="h1" >
 
                                     {this.state.userToBeDisplayed.name},
                                     {this.state.userToBeDisplayed.sex},

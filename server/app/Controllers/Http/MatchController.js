@@ -8,12 +8,11 @@ class MatchController {
         try {
             let user = await auth.getUser()
             const id = user.id
-            // const id = parseInt(request.input('id'))
             //allUsers everyone except logged in user
             let allUsers = await Database.query().table('users').whereNot('id', id)
-            //pendingMatches means the another user has created the row in the table and we need to fill it
+            //user1LoggedInPendingMatches means the another user has created the row in the table and we need to fill it
             let user1LoggedInPendingMatches = await Database.query().table('matches').where('user1_id', id).where('user1_approval', null)
-            //incompleteUser1 is where the user has already made a row but never liked or disliked
+            //user2LoggedInPendingMatches is where the user has already made a row but never liked or disliked
             let user2LoggedInPendingMatches = await Database.query().table('matches').where('user2_id', id).where('user2_approval', null)
             //matchesForUser is the quantity of all the users, except us
             let matchesForUser = await Database.query().table('matches').where('user1_id', id).orWhere('user2_id', id)
@@ -24,7 +23,7 @@ class MatchController {
             } else if (user2LoggedInPendingMatches.length > 0) {
                 userToBeDisplayed = await User.find(user2LoggedInPendingMatches[0].user1_id)
             }
-
+//remove returns and make sure works
             if (user2LoggedInPendingMatches.length > 0) {
                 response.send({ match: user2LoggedInPendingMatches[0], userToBeDisplayed, isUserOne: false, userCurrentlyLoggedIn: user })
                 return
