@@ -17,7 +17,7 @@ import {
 
 const styles = {
     card: {
-        maxWidth: 150,
+        maxWidth: 450,
         borderRadius: 35, 
         backgroundColor: 'dim gray',
     },

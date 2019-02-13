@@ -11,21 +11,21 @@ import axios from 'axios';
 import Dialog from './../Dialog.js';
 import PhotoUploader from '../PhotoUploader/PhotoUploader';
 import '../App.css';
-import {withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 
 const styleSheet = {
-    button:{
+    button: {
         backgroundColor: 'orange',
         textColor: 'gray',
         height: 50,
         width: 100,
         borderRadius: 35,
         opacity: 50,
-      },
+    },
     card: {
         maxWidth: 1590,
-        borderRadius: 35, 
+        borderRadius: 35,
         backgroundColor: 'dim gray',
     },
 }
@@ -60,15 +60,15 @@ class Profile extends Component {
         this.getUrl = this.getUrl.bind(this);
     }
     componentDidMount() {
-        axios.get('/user', 
-          {
-            headers: {'Authorization': `Bearer ${localStorage.getItem('pinder_token')}`}
-          }).then((response) => {
-            this.setState({ user: response.data.user })
-        }).catch((err) => {
-             alert(err)
-            this.props.history.push('/login')
-        })
+        axios.get('/user',
+            {
+                headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }
+            }).then((response) => {
+                this.setState({ user: response.data.user })
+            }).catch((err) => {
+                alert(err)
+                this.props.history.push('/login')
+            })
     }
 
     _handleFocus(key, text) {
@@ -92,7 +92,7 @@ class Profile extends Component {
     }
 
     deleteProfile(user) {
-        axios.delete(`/deleteUser`, {headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }})
+        axios.delete(`/deleteUser`, { headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` } })
             .then((response) => {
                 // this.props.logout()
                 //meow meow meow this dont work meow
@@ -104,20 +104,20 @@ class Profile extends Component {
     }
 
     updateProfile(user) {
-        axios.put(`/updateUser`, 
-         {
-            username: user.username,
-            email: user.email,
-            password: user.password,
-            name: user.name,
-            species: user.species,
-            sex: user.sex,
-            city: user.city,
-            state: user.state,
-            age: user.age,
-            bio: user.bio,
-            url: user.url
-        },{headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` }}
+        axios.put(`/updateUser`,
+            {
+                username: user.username,
+                email: user.email,
+                password: user.password,
+                name: user.name,
+                species: user.species,
+                sex: user.sex,
+                city: user.city,
+                state: user.state,
+                age: user.age,
+                bio: user.bio,
+                url: user.url
+            }, { headers: { 'Authorization': `Bearer ${localStorage.getItem('pinder_token')}` } }
         )
             .then((response) => {
                 console.log('Updated Profile')
@@ -181,41 +181,46 @@ class Profile extends Component {
             <div className="container"
                 style={{ paddingTop: '5%' }}>
                 <Card className={this.props.classes.card}>
-                <CardContent >
-                {/* className={this.props.classes.button} */}
-                    {this.profileItems()}
+                    <CardContent >
+                        {/* className={this.props.classes.button} */}
+                        {this.profileItems()}
                     </CardContent>
+
                     <CardActions>
-                    <PhotoUploader getUrl={this.getUrl} />
-                    
-                    <Grid container justify="space-between">
-                        <Grid item>
-                            <Dialog
-                                buttonName={'Delete Profile'}
-                                buttonType={'primary'}
-                                title={'Delete Profile'}
-                                dialog={'Are you sure you want to Delete Your Profile? This cannot be Undone!'}
-                                confirm={'Delete'} deny={'Cancel'}
-                                action={this.deleteProfile}
-                                user={this.state.user}
-                            />
+                        <Grid container justify="space-between">
+                            <Grid item>
+                                <Dialog
+                                    buttonName={'Delete Profile'}
+                                    buttonType={'primary'}
+                                    title={'Delete Profile'}
+                                    dialog={'Are you sure you want to Delete Your Profile? This cannot be Undone!'}
+                                    confirm={'Delete'} deny={'Cancel'}
+                                    action={this.deleteProfile}
+                                    user={this.state.user}
+                                />
+                            </Grid>
+                            <Grid item>
+                                <Dialog
+                                    buttonName={'Update Profile'}
+                                    buttonType={'secondary'}
+                                    title={'Update Profile'}
+                                    dialog={'Are you sure you want to Update Your Profile?'}
+                                    confirm={'Update'}
+                                    deny={'Cancel'}
+                                    action={this.updateProfile}
+                                    user={this.state.user}
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid item>
-                            <Dialog
-                                buttonName={'Update Profile'}
-                                buttonType={'secondary'}
-                                title={'Update Profile'}
-                                dialog={'Are you sure you want to Update Your Profile?'}
-                                confirm={'Update'}
-                                deny={'Cancel'}
-                                action={this.updateProfile}
-                                user={this.state.user}
-                            />
-                        </Grid>
-                    </Grid>
+
+
                     </CardActions>
+
                 </Card >
-                
+                <Grid style={{ marginTop: '1vw' }}>
+                    <PhotoUploader getUrl={this.getUrl} />
+                </Grid>
+
             </div >
         )
 
