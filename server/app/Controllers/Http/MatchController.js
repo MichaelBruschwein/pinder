@@ -6,17 +6,21 @@ const Database = use('Database')
 class MatchController {
     async match({ request, response, auth }) {
         try {
+            //grab our user
             let user = await auth.getUser()
             const id = user.id
-            //allUsers everyone except logged in user
+
+            //grab all the users except the logged in user
             let allUsers = await Database.query().table('users').whereNot('id', id)
-            //user1LoggedInPendingMatches means the another user has created the row in the table and we need to fill it
+
+            //grab the matches that exist in the table where our user hasnt filled the like column
             let user1LoggedInPendingMatches = await Database.query().table('matches').where('user1_id', id).where('user1_approval', null)
-            //user2LoggedInPendingMatches is where the user has already made a row but never liked or disliked
             let user2LoggedInPendingMatches = await Database.query().table('matches').where('user2_id', id).where('user2_approval', null)
+
             //matchesForUser is the quantity of all the users, except us
             let matchesForUser = await Database.query().table('matches').where('user1_id', id).orWhere('user2_id', id)
 
+            // the matches that exist in the table that have not had our user like column filled will show up first
             let userToBeDisplayed;
             if (user1LoggedInPendingMatches.length > 0) {
                 userToBeDisplayed = await User.find(user1LoggedInPendingMatches[0].user2_id)

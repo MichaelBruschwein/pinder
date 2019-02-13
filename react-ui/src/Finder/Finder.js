@@ -21,7 +21,7 @@ const styles = {
         borderRadius: 35, 
         backgroundColor: 'dim gray',
     },
-    // formatting the pic below... on finder page, kind of?
+    
     media: {
         paddingTop: '75.25%',
         paddingBottom: '-76%',
@@ -88,8 +88,7 @@ class Finder extends React.Component {
                     this.setState({
                         sadPuppy: true
                     })
-                    // alert("Thats ruff, there are no more matches")
-                    //reroute here
+                    
                 } else {
                     this.setState({
                         userToBeDisplayed: response.data.userToBeDisplayed,
@@ -164,8 +163,5 @@ Finder.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-//export default withStyles(styles)(MediaCard);
+
 export default withRouter(withStyles(styles)(Finder));
-//Make a axios post call to database to create and search for matches
-//We get a response from database and setstate of matches to equal the ids from database
-//
